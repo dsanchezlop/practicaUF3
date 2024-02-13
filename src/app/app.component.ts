@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { ProductsService } from './Services/products.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'practicaUF3';
+  constructor(private productsService: ProductsService) {
+    productsService.getProducts();
+  }
 }

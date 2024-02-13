@@ -1,0 +1,110 @@
+<form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+  <input
+    type="text"
+    formControlName="username"
+    validateUsername
+    placeholder="Username"
+  />
+  <div
+    *ngIf="
+      registerForm.get('username')!.invalid &&
+      registerForm.get('username')!.touched
+    "
+  >
+    Invalid username
+    <div *ngIf="registerForm.get('username')!.errors?.['invalidUsername']">
+      Username can only contain letters and has to be at least 6 characters long
+    </div>
+  </div>
+
+  <input
+    type="password"
+    formControlName="password"
+    validatePassword
+    placeholder="Password"
+  />
+  <div
+    *ngIf="
+      registerForm.get('password')!.invalid &&
+      registerForm.get('password')!.touched
+    "
+  >
+    Invalid password
+    <div *ngIf="registerForm.get('password')!.errors?.['invalidPassword']">
+      Password must contain at least one letter, one number, and be at least 8
+      characters long
+    </div>
+  </div>
+
+  <input
+    type="password"
+    formControlName="repeatPassword"
+    placeholder="Repeat Password"
+  />
+  <div
+    *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('repeatPassword')!.touched"
+  >
+    Passwords do not match
+  </div>
+
+  <input
+    type="email"
+    formControlName="email"
+    validateEmail
+    placeholder="Email"
+  />
+  <div
+    *ngIf="
+      registerForm.get('email')!.invalid && registerForm.get('email')!.touched
+    "
+  >
+    Invalid email
+    <div *ngIf="registerForm.get('email')!.errors?.['invalidEmail']">
+      Please enter a valid email address
+    </div>
+  </div>
+
+  <input
+    type="text"
+    formControlName="phone"
+    validatePhone
+    placeholder="Phone"
+  />
+  <div
+    *ngIf="
+      registerForm.get('phone')!.invalid && registerForm.get('phone')!.touched
+    "
+  >
+    Invalid phone number
+    <div *ngIf="registerForm.get('phone')!.errors?.['invalidPhone']">
+      Please enter a valid phone number
+    </div>
+  </div>
+
+  <select formControlName="sex">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
+  </select>
+
+  <label>
+    <input type="checkbox" formControlName="interest1" /> Interest 1
+  </label>
+
+  <label>
+    <input type="checkbox" formControlName="interest2" /> Interest 2
+  </label>
+
+  <label>
+    <input type="checkbox" formControlName="policy" /> I agree to the policy
+  </label>
+  <div
+    *ngIf="
+      registerForm.get('policy')!.invalid && registerForm.get('policy')!.touched
+    "
+  >
+    You must agree to the policy
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid">Register</button>
+</form>

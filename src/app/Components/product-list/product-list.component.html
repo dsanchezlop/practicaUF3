@@ -1,0 +1,66 @@
+<p>Filter by name:</p>
+<input
+  type="text"
+  [(ngModel)]="nameFilter"
+  (ngModelChange)="filterProducts()"
+/>
+
+<p>Filter by price:</p>
+<label>Min: ${{ minPriceFilter }}</label>
+<input
+  type="range"
+  min="0"
+  max="100"
+  [(ngModel)]="minPriceFilter"
+  (ngModelChange)="
+    minPriceFilter =
+      minPriceFilter > maxPriceFilter ? maxPriceFilter : minPriceFilter;
+    filterProducts()
+  "
+/>
+
+<label>Max: ${{ maxPriceFilter }}</label>
+<input
+  type="range"
+  min="0"
+  max="100"
+  [(ngModel)]="maxPriceFilter"
+  (ngModelChange)="
+    maxPriceFilter =
+      maxPriceFilter < minPriceFilter ? minPriceFilter : maxPriceFilter;
+    filterProducts()
+  "
+/>
+
+<p>Filter by category:</p>
+<select [(ngModel)]="categoryFilter" (ngModelChange)="filterProducts()">
+  <option value="">All</option>
+  <option *ngFor="let category of allCategories" [value]="category">
+    {{ category }}
+  </option>
+</select>
+
+<p>Products per page:</p>
+<label>{{ pageSize }}</label>
+<input type="range" min="1" max="10" [(ngModel)]="pageSize" />
+
+<div
+  class="product-list"
+  *ngFor="
+    let product of filteredProducts
+      | paginate : { itemsPerPage: pageSize, currentPage: currentPage }
+  "
+>
+  <div class="product-item">
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.category.name }}</p>
+    <p>{{ product.description }}</p>
+    <p>Price: ${{ product.price }}</p>
+    <p>Picture: {{ product.picture }}</p>
+    <p>Favorite: {{ product.favorite ? "Yes" : "No" }}</p>
+    <button (click)="addToCart(product)">Add to cart</button>
+    <!-- <button (click)="removeFromCart(product)">Remove from cart</button> -->
+  </div>
+</div>
+
+<pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
